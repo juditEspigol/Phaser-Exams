@@ -59,12 +59,7 @@ export default class objectPrefab
     {
         console.log('interacted with tienda'); 
     }
-
-    Check() 
-    {
-        this.scene.student.checkIfPlayerHasLeftZone(this, this.zone.areaZone);
-    }
-
+    
     onPlayerExit()
     {
         this.interacted = false; 

@@ -24,10 +24,10 @@ export default class npcPrefab extends Phaser.GameObjects.Sprite
 
         // Setear el body y la zona de interacción
         this.body.setSize(16,16).setOffset(40,22).setImmovable();
-        this.zone = this.scene.add.zone(_npc.posX,_npc.posY-2).setSize(24,24);
-        _scene.physics.world.enable(this.zone); // Añadimos la zona a la escena
-        this.zone.body.setImmovable();
-        this.zone.body.debugBodyColor = 0xffffff;        
+        this.areaZone = this.scene.add.zone(_npc.posX,_npc.posY-2).setSize(24,24);
+        _scene.physics.world.enable(this.areaZone); // Añadimos la zona a la escena
+        this.areaZone.body.setImmovable();
+        this.areaZone.body.debugBodyColor = 0xffffff;        
         this.setColliders();  
         
     }
@@ -94,7 +94,7 @@ export default class npcPrefab extends Phaser.GameObjects.Sprite
         this.scene.physics.add.overlap
         (
             this.scene.student,
-            this.zone,
+            this.areaZone,
             function()
             {
                 this.scene.interactiveObject(this); 
@@ -127,12 +127,5 @@ export default class npcPrefab extends Phaser.GameObjects.Sprite
                 this.dialog.setVisible(false); 
             }
         });
-    }
-    
-    preUpdate(time,delta)
-    {
-        super.preUpdate(time, delta);
-
-        this.scene.student.checkIfPlayerHasLeftZone(this, this.zone);
     }
 }

@@ -15,6 +15,7 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
 
         // Seteamos caja de colisión
         this.body.setSize(10,16).setOffset(44,22);
+        this.interacting = false;
     }
 
    loadAnimations()
@@ -56,7 +57,7 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
             key: 'axe',
             frames:this.anims.generateFrameNumbers('student', {start:92, end:101}),
             frameRate: 10,
-            repeat: 0
+            repeat: 2
         });
 
         this.anims.create(
@@ -112,12 +113,17 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
     preUpdate(time,delta)
     {
         super.preUpdate(time, delta); 
-        this.basicMovement();        
+        if(!this.interacting)
+        {
+            this.basicMovement();       
+
+        }
     }
 
     // OBLIGATORIO
     basicMovement()
     { 
+        
         if(this.cursors.left.isDown)
         {
             this.body.setVelocity(-gamePrefs.STUDENT_SPEED,0);
@@ -147,4 +153,20 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
             this.anims.play('idle', true);
         }
     }
+
+    cutTree(tree)
+    {
+        this.interacting = true;
+        this.anims.play('axe', true).on('animationcomplete', function () {
+            this.interacting = false;
+            
+            // Eliminar el árbol del array
+            const treeIndex = this.scene.objectGroup.indexOf(tree); // Encuentra el índice del árbol
+            if (treeIndex !== -1) {
+                this.scene.objectGroup.splice(treeIndex, 1); // Elimina el árbol del array
+            }
+            
+        }, this);
+    }
+
 }

@@ -9,14 +9,17 @@ export default class treePrefab extends Phaser.GameObjects.Sprite
         this.anims.play('idle',true);
         this.scene = _scene;
         this.body.setSize(16,16).setOffset(8,24).setImmovable();
-        this.zone = this.scene.add.zone(_tree.posX,_tree.posY).setSize(32,32);
-        this.scene.physics.world.enable(this.zone);
-        this.zone.body.setImmovable();
-        this.zone.body.debugBodyColor = 0xffffff;
+        this.areaZone = this.scene.add.zone(_tree.posX,_tree.posY).setSize(32,32);
+        this.scene.physics.world.enable(this.areaZone);
+        this.areaZone.body.setImmovable();
+        this.areaZone.body.debugBodyColor = 0xffffff;
         this.setColliders();
         this.tree = _tree;
-        this.tree.areaZone = this.zone;
         this.tree.objeto = this;
+
+        this.isPlayerInsideZone = false; 
+        this.interacted = false; 
+        this.interactiveIcon = this.scene.add.sprite(10,10,'UI', 5).setPosition(this.x,this.y - 15).setVisible(false);
     }
 
     setColliders()
@@ -30,10 +33,10 @@ export default class treePrefab extends Phaser.GameObjects.Sprite
         this.scene.physics.add.overlap
         (
             this.scene.student,
-            this.zone,
+            this.areaZone,
             function()
             {
-                this.scene.interactiveObject(this.tree);
+                this.scene.interactiveObject(this); 
             },
             null,
             this
@@ -49,10 +52,18 @@ export default class treePrefab extends Phaser.GameObjects.Sprite
             frameRate: 10,
             repeat: -1
         });
-    }
+    }  
 
-    preUpdate(time,delta)
+    onPlayerExit() 
     {
-        super.preUpdate(time, delta);
+        // COSAS OBLIGATORIAS
+        this.interacted = false; 
+        this.interactiveIcon.setVisible(false);       
+    }
+    
+    interact()
+    {
+
+        this.scene.student.cutTree(this);
     }
 }

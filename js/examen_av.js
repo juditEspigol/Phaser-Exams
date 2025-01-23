@@ -2,6 +2,7 @@ import { gamePrefs } from "./globals.js";
 import npcPrefab from "./npcPrefab.js";
 import objectPrefab from "./objectPrefab.js";
 import studentPrefab from "./studentPrefab.js";
+import treePrefab from "./treePrefab.js";
 
 export default class examen_av extends Phaser.Scene
 {
@@ -105,7 +106,8 @@ export default class examen_av extends Phaser.Scene
                         dialog: object.properties[0].value
                     }
                     var npc = new npcPrefab(this, _npc); 
-
+                    
+                    this.objectGroup.push(npc);    
                 break; 
                 case 'tienda':
                     var _tiendaZone = {
@@ -118,6 +120,17 @@ export default class examen_av extends Phaser.Scene
                     this.objectGroup.push(tienda);                    
 
                 break; 
+                case 'tree':
+                    var _tree ={
+                        posX: object.x,
+                        posY: object.y,
+                        id: object.name
+                    }
+                    var tree = new treePrefab(this, _tree);
+                    this.objectGroup.push(tree);    
+
+                break;
+
                 default: 
                 break; 
             }
@@ -181,7 +194,11 @@ export default class examen_av extends Phaser.Scene
     { //Actualiza whatever
 
         this.objectGroup.forEach((object) => {
-           object.Check()
+            // Comprobar si el objeto (child) es válido
+            if (object ) {
+                // Si el objeto es válido, llama a la función
+                this.student.checkIfPlayerHasLeftZone(object, object.areaZone);
+            }
         });
     }
 }

@@ -219,7 +219,8 @@ export default class examen_av extends Phaser.Scene
         });
     }
 
-    // TIMER DE 1 SEGUNDO
+    // TIMER DE 1 SEGUNDO callback = funcion que ejecutará
+    // Ejemplo en objectsPrefab
     timer(_callback)
     {
         this.time.addEvent({

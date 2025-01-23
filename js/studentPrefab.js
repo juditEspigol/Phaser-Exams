@@ -4,18 +4,31 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
 {
     constructor(_scene,_posX,_posY,_spriteTag='student')
     { 
-        // Lineas obligatorias para la creación
+        // OBLIGATORIO PARA CREAR COLLISIONES EN LA ESCENA
         super(_scene,_posX,_posY,_spriteTag);
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
-        this.cursors = this.scene.input.keyboard.createCursorKeys();
         
-        this.loadAnimations();
-        this.setColliders(); 
-
         // Seteamos caja de colisión
         this.body.setSize(10,16).setOffset(44,22);
         this.interacting = false;
+
+        // ATTRIBUTOS
+        this.farm = 0;
+        this.money = 0;
+        this.wood = 0;
+        this.tools = false;
+        this.water = false;
+        
+        // SETEAMOS INPUTS DEL PLAYER
+        this.cursors = this.scene.input.keyboard.createCursorKeys();
+
+        // ANIAMCIONES
+        this.loadAnimations();
+        this.anims.play('idle',true);
+        
+        // COLLISIONES
+        this.setColliders(); 
     }
 
    loadAnimations()
@@ -57,7 +70,7 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
             key: 'axe',
             frames:this.anims.generateFrameNumbers('student', {start:92, end:101}),
             frameRate: 10,
-            repeat: 2
+            repeat: 0
         });
 
         this.anims.create(
@@ -85,6 +98,13 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
         });
     }
 
+    setColliders()
+    {   
+        // OBLIGTARIO: Collisiones del mapa
+        this.collideWithMap = this.scene.physics.add.collider(this, this.scene.collisions_state0);
+    }
+
+    // Función que se llama en el update de la escena para todos los objetos interactuables
     checkIfPlayerHasLeftZone(_object, _zone) 
     {
         if (_object.isPlayerInsideZone) 
@@ -102,32 +122,23 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
         }
     }
 
-    setColliders()
-    {   
-        // OBLIGTARIO 
-        // Collisiones del mapa
-        this.collideWithMap = this.scene.physics.add.collider(this, this.scene.collisions_state0);
-
-    }
-
     preUpdate(time,delta)
     {
         super.preUpdate(time, delta); 
-        if(!this.interacting)
+
+        // OBLIGATORIO: MOVIMIENTO (Si esta interactuando no puede moverse)
+        if(!this.interacting) 
         {
             this.basicMovement();       
-
         }
     }
 
-    // OBLIGATORIO
+    // OBLIGATORIO: Movimiento básico
     basicMovement()
     { 
-        
         if(this.cursors.left.isDown)
         {
             this.body.setVelocity(-gamePrefs.STUDENT_SPEED,0);
-            this.body.setVelocityY(0);
             this.setFlipX(true);
             this.anims.play('run', true);
         }
@@ -154,19 +165,13 @@ export default class studentPrefab extends Phaser.GameObjects.Sprite
         }
     }
 
-    cutTree(tree)
+    getTools()
     {
-        this.interacting = true;
-        this.anims.play('axe', true).on('animationcomplete', function () {
-            this.interacting = false;
-            
-            // Eliminar el árbol del array
-            const treeIndex = this.scene.objectGroup.indexOf(tree); // Encuentra el índice del árbol
-            if (treeIndex !== -1) {
-                this.scene.objectGroup.splice(treeIndex, 1); // Elimina el árbol del array
-            }
-            
-        }, this);
+        this.tools = true;
     }
 
+    getWater()
+    {
+        this.water = true;
+    }
 }

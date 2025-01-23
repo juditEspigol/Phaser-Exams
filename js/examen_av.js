@@ -3,6 +3,7 @@ import npcPrefab from "./npcPrefab.js";
 import objectPrefab from "./objectPrefab.js";
 import studentPrefab from "./studentPrefab.js";
 import treePrefab from "./treePrefab.js";
+import uiPrefab from "./uiPrefab.js";
 
 export default class examen_av extends Phaser.Scene
 {
@@ -12,9 +13,11 @@ export default class examen_av extends Phaser.Scene
     }
 
     preload()
-    { //Carga assets en memoria
+    { 
+        // Color de fondo
         this.cameras.main.setBackgroundColor("112");
-        
+
+        // Carga assets en memoria
         this.load.setPath('assets/sprites');
         this.load.image('pozo','spr_pozo.png');
         this.load.image('monumento','spr_richards_glory.png');
@@ -41,7 +44,6 @@ export default class examen_av extends Phaser.Scene
         {frameWidth:32,frameHeight:32});
         this.load.spritesheet('chicken','spr_deco_chicken_01_strip4.png',
         {frameWidth:32,frameHeight:32});
-
         
         this.load.setPath('assets/tilesets');
         this.load.image('tileset_sunnysideworld_16px','spr_tileset_sunnysideworld_16px.png');
@@ -54,15 +56,16 @@ export default class examen_av extends Phaser.Scene
         this.load.setPath('assets/fonts/');
         this.load.bitmapFont('UIFont','gameFont.png','gameFont.xml');
         this.load.bitmapFont('dialogFont','ThaleahFat_16.png','ThaleahFat_16.xml');
-        
     }
 
     create()
     { 
         // INPUTS 
         this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-        // CREAMOS ARRAY
-        this.objectGroup = [];
+
+        // CREAMOS ARRAY DE OBJETOS INTERACTUABLES
+        this.objectsArray = [];
+
         // TILESET/JSON
         // 1-- Añadimos el tilemap del JSON que hemos cargado previamente
         this.map = this.add.tilemap("examen_av");
@@ -79,17 +82,16 @@ export default class examen_av extends Phaser.Scene
         this.land_details = this.map.createLayer('land_details', 'tileset_sunnysideworld_16px');
         this.house_lv0 = this.map.createLayer('house_lv0', 'tileset_sunnysideworld_16px');
         this.forest_devastated = this.map.createLayer('forest_devastated', 'tileset_sunnysideworld_16px');
-        this.richards_glory = this.map.createLayer('richards_glory', 'tileset_sunnysideworld_16px').setVisible(false);
+        this.richards_glory = this.map.createLayer('richards_glory', 'tileset_sunnysideworld_16px').setDepth(1).setVisible(false);
         this.orchad = this.map.createLayer('orchad', 'tileset_sunnysideworld_16px');
         this.farm = this.map.createLayer('farm', 'tileset_sunnysideworld_16px');
-        // Layer de collisiones
-        this.collisions_state0 = this.map.createLayer('collisions_state0', 'tileset_sunnysideworld_16px').setVisible(false);
         // 4-- Crear collisiones de las layers
+        this.collisions_state0 = this.map.createLayer('collisions_state0', 'tileset_sunnysideworld_16px').setVisible(false);
         this.map.setCollisionByExclusion(-1, true, true, 'collisions_state0'); 
 
         // PLAYER Y CÁMERA
         this.student = new studentPrefab(this, 200, 290);
-        this.cameras.main.startFollow(this.student).setBounds(0,0,gamePrefs.gameWidth,gamePrefs.gameHeight);
+        this.cameras.main.startFollow(this.student).setBounds(0,0,gamePrefs.gameWidth,gamePrefs.gameHeight); // camera sigue al player
 
         // INSERTAMOS OBJECTOS DEL TILED
         this.game_objects = this.map.getObjectLayer('objects'); 
@@ -106,8 +108,7 @@ export default class examen_av extends Phaser.Scene
                         dialog: object.properties[0].value
                     }
                     var npc = new npcPrefab(this, _npc); 
-                    
-                    this.objectGroup.push(npc);    
+                    this.objectsArray.push(npc);    
                 break; 
                 case 'tienda':
                     var _tiendaZone = {
@@ -116,9 +117,44 @@ export default class examen_av extends Phaser.Scene
                         id: object.name
                     } 
                     var tienda = new objectPrefab(this, _tiendaZone); 
-                    // INTRODUCIMOS OBJETO EN EL ARRAY
-                    this.objectGroup.push(tienda);                    
-
+                    this.objectsArray.push(tienda);                    
+                break; 
+                case 'huerto':
+                    var _huertoZone = {
+                        posX: object.x, 
+                        posY: object.y, 
+                        id: object.name
+                    } 
+                    var huerto = new objectPrefab(this, _huertoZone); 
+                    this.objectsArray.push(huerto);                    
+                break; 
+                
+                case 'granja':
+                    var _granjaZone = {
+                        posX: object.x, 
+                        posY: object.y, 
+                        id: object.name
+                    } 
+                    var granja = new objectPrefab(this, _granjaZone); 
+                    this.objectsArray.push(granja);                    
+                break; 
+                case 'monumento':
+                    var _monumentoZone = {
+                        posX: object.x, 
+                        posY: object.y, 
+                        id: object.name
+                    } 
+                    var monumento = new objectPrefab(this, _monumentoZone); 
+                    this.objectsArray.push(monumento);                    
+                break; 
+                case 'tumba':
+                    var _tumbaZone = {
+                        posX: object.x, 
+                        posY: object.y, 
+                        id: object.name
+                    } 
+                    var tumba = new objectPrefab(this, _tumbaZone); 
+                    this.objectsArray.push(tumba);                    
                 break; 
                 case 'tree':
                     var _tree ={
@@ -127,16 +163,27 @@ export default class examen_av extends Phaser.Scene
                         id: object.name
                     }
                     var tree = new treePrefab(this, _tree);
-                    this.objectGroup.push(tree);    
-
+                    this.objectsArray.push(tree);    
                 break;
-
+                case 'pozo':
+                    var _pozoZone = {
+                        posX: object.x, 
+                        posY: object.y, 
+                        id: object.name
+                    } 
+                    var pozo = new objectPrefab(this, _pozoZone); 
+                    this.objectsArray.push(pozo);                    
+                break; 
                 default: 
                 break; 
             }
         }, this); 
 
+        // CREAMOS LA UI LO ULTIMO PARA QUE SE VEA POR ENCIMA
+        this.ui = new uiPrefab(this);   
         
+        // SETEAMOS ANIMACIONES
+        this.loadAnimations(); 
     }
 
     loadAnimations()
@@ -144,7 +191,7 @@ export default class examen_av extends Phaser.Scene
         this.anims.create(
         {
             key: 'grow',
-            frames:this.anims.generateFrameNumbers('weat', {start:0, end:5}),
+            frames:this.anims.generateFrameNumbers('weat', {start:0, end:4}),
             frameRate: 1,
             repeat: 0,
             hideOnComplete:true
@@ -172,31 +219,39 @@ export default class examen_av extends Phaser.Scene
         });
     }
 
+    // TIMER DE 1 SEGUNDO
+    timer(_callback)
+    {
+        this.time.addEvent({
+            delay: 1000,  // El intervalo en milisegundos (1000 ms = 1 segundo)
+            callback: _callback,
+            loop: true  // Hace que el evento se repita infinitamente
+        });
+    }
+
+    // OBLIGATORIO: Detectamos si el juador puede interactuar
     interactiveObject(_object)
     {
         _object.isPlayerInsideZone = true;
         _object.interactiveIcon.setVisible(true);
 
-        // En el método `update`, usa `justDown` para detectar solo la primera vez que se presiona
         if (this.keyE.isDown) 
         {
             // Tecla de interactuar presionada
             if(!_object.interacted)
             {
-                _object.interacted = true; 
-                _object.interact(); 
-                // Resetear el interactuar despues de 2 segundos
+                _object.interacted = true;
+                _object.interact(this.student); 
             }
         }
     }
 
     update()
-    { //Actualiza whatever
-
-        this.objectGroup.forEach((object) => {
-            // Comprobar si el objeto (child) es válido
-            if (object ) {
-                // Si el objeto es válido, llama a la función
+    { 
+        // OBLIGATORIO: Detectamos si el jugador ha salido de la zona interactuable
+        this.objectsArray.forEach((object) => 
+        {
+            if(object.areaZone.body) {   
                 this.student.checkIfPlayerHasLeftZone(object, object.areaZone);
             }
         });

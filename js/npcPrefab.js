@@ -5,29 +5,34 @@ export default class npcPrefab extends Phaser.GameObjects.Sprite
 {
     constructor(_scene,_npc)
     { 
-        // Instanciar el objeto
+        // OBLIGATORIO PARA CREAR COLLISIONES EN LA ESCENA
         super(_scene,_npc.posX,_npc.posY,_npc.id);
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
-        this.loadAnimations();
 
-        this.anims.play(_npc.id,true);
+        // Seteamos caja de collisión
+        this.body.setSize(16,16).setOffset(40,22).setImmovable();
 
         // ATTRIBUTOS
         this.npc = _npc;
-        // ATTRIBUTOS DE TODOS LOS INTERACTUABLES
-        this.isPlayerInsideZone = false; 
-        this.interacted = false; 
-        this.interactiveIcon = this.scene.add.sprite(10,10,'UI', 2).setPosition(this.x,this.y - 15).setVisible(false);
-        // Interacción del npc
-        this.dialog = this.scene.add.bitmapText(10, config.scale.height, 'dialogFont', _npc.dialog, 15).setOrigin(0, 1).setVisible(false).setScrollFactor(0); 
+        this.scene = _scene; 
 
-        // Setear el body y la zona de interacción
-        this.body.setSize(16,16).setOffset(40,22).setImmovable();
+        // ZONA INTERACTUBLE --> NO CAMBIAR EL NOMBRE 'areaZone'
         this.areaZone = this.scene.add.zone(_npc.posX,_npc.posY-2).setSize(24,24);
         _scene.physics.world.enable(this.areaZone); // Añadimos la zona a la escena
         this.areaZone.body.setImmovable();
-        this.areaZone.body.debugBodyColor = 0xffffff;        
+        this.areaZone.body.debugBodyColor = 0xffffff;   
+
+        // ATTRIBUTOS OBLIGATORIOS EN LOS INTERACTUABLES
+        this.isPlayerInsideZone = false; 
+        this.interacted = false; 
+        this.interactiveIcon = this.scene.add.sprite(10,10,'UI', 2).setPosition(this.x,this.y - 15).setVisible(false);
+        
+        // ANIMACIONES
+        this.loadAnimations();
+        this.anims.play(_npc.id,true);
+
+        // COLLISIONES
         this.setColliders();  
         
     }
@@ -85,12 +90,14 @@ export default class npcPrefab extends Phaser.GameObjects.Sprite
 
     setColliders()
     {
+        // Collisión con el player
         this.scene.physics.add.collider
         (
             this.scene.student,
             this
         );
 
+        // Collision de la zona interactuable con el player
         this.scene.physics.add.overlap
         (
             this.scene.student,
@@ -104,9 +111,10 @@ export default class npcPrefab extends Phaser.GameObjects.Sprite
         );
     }
 
-    interact()
+    interact(_student)
     {
-        this.dialog.setVisible(true); 
+        // MOSTRAR DIALOGO
+        this.scene.ui.dialogAppear(this.npc.dialog); 
     }
 
     onPlayerExit() 
@@ -115,17 +123,7 @@ export default class npcPrefab extends Phaser.GameObjects.Sprite
         this.interacted = false; 
         this.interactiveIcon.setVisible(false);
 
-        // Hacer que el dialogo desaparezca poco a poco
-        this.scene.tweens.add({
-            targets: this.dialog,      
-            alpha: 0,                  
-            duration: 0.5 * 1000,
-            ease: 'Linear', 
-            onComplete: () => 
-            {
-                this.dialog.alpha = 1; 
-                this.dialog.setVisible(false); 
-            }
-        });
-    }
+        // Hacer que el dialogo desaparezca en 0.5 segundos
+        this.scene.ui.dialogDisappear(0.5);
+    }  
 }

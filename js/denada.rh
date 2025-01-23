@@ -1,0 +1,34 @@
+POSICIONES INICIALES DE TODOS LOS OBJETOS
+sprite(192,160,'tienda')
+sprite(x*16+56,y*16+260,'weat')
+sprite(300,200,'cow')
+sprite(320,230,'pig')
+sprite(340,200,'chicken')
+sprite(296,84,'cofre')
+sprite(320,288,'monumento')
+
+UI
+sprite(10,10,'counters')
+bitmapText(30, 10, 'UIFont','0',12)
+sprite(60,10,'counters')
+bitmapText(80, 10, 'UIFont','0',12)
+sprite(110,10,'counters')
+bitmapText(130, 10, 'UIFont','0',12)
+
+BODY DEL HERO
+this.student.body.setSize(16,16).setOffset(40,22);
+new studentPrefab(this,200,290);
+
+FUNCIONES 'INTERESANTES'
+this.add.tween
+this.add.bitmapText
+array.includes
+array.push
+sprite.setFrame
+this.add.zone
+this.map.setCollisionByExclusion
+this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).on('up',function(){},this)
+sprite.anims.play(key,true).on('animationcomplete',function (){}, this);
+zone.body.debugBodyColor = 0xffffff;
+map.createLayer
+map.getObjectLayer

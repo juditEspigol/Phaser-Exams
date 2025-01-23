@@ -60,9 +60,8 @@ export default class examen_av extends Phaser.Scene
     { 
         // INPUTS 
         this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-
-        // GRUPO OBJETOS
-        this.objectsGroup = this.add.group();
+        // CREAMOS ARRAY
+        this.objectGroup = [];
         // TILESET/JSON
         // 1-- Añadimos el tilemap del JSON que hemos cargado previamente
         this.map = this.add.tilemap("examen_av");
@@ -115,7 +114,8 @@ export default class examen_av extends Phaser.Scene
                         id: object.name
                     } 
                     var tienda = new objectPrefab(this, _tiendaZone); 
-                    
+                    // INTRODUCIMOS OBJETO EN EL ARRAY
+                    this.objectGroup.push(tienda);                    
 
                 break; 
                 default: 
@@ -180,6 +180,8 @@ export default class examen_av extends Phaser.Scene
     update()
     { //Actualiza whatever
 
-        
+        this.objectGroup.forEach((object) => {
+           object.Check()
+        });
     }
 }

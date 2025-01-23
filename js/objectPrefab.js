@@ -52,7 +52,7 @@ export default class objectPrefab
             },
             null,
             this
-        );
+        );        
     }
 
     interact()
@@ -60,11 +60,15 @@ export default class objectPrefab
         console.log('interacted with tienda'); 
     }
 
-    onPlayerExit() 
+    Check() 
     {
-        console.log('player left'); 
-        // COSAS OBLIGATORIAS
-        this.interacted = false; 
-        this.interactiveIcon.setVisible(false);
+        this.scene.student.checkIfPlayerHasLeftZone(this, this.zone.areaZone);
     }
+
+    onPlayerExit()
+    {
+        this.interacted = false; 
+        this.interactiveIcon.setVisible(false);        
+    }
+
 }

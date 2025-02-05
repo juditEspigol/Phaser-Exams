@@ -1,0 +1,58 @@
+POSICIONES INICIALES DE TODOS LOS OBJETOS
+Ninguna. Lee el JSON!
+
+
+BODY & ZONE SIZES
+"razor"
+this.zone.body.setSize(64,8).setOffset(-16,0)
+"spark"
+this.zone.body.setSize(16,16).setOffset(0,-8)
+"torch"
+this.zone.body.setSize(16,16).setOffset(-8,0)
+"warp"
+this.zone.body.setSize(16,16)
+"totem"
+this.zone.body.setSize(24,24).setOffset(-12,8)
+
+
+BODY DEL HERO
+studentPrefab(this,gamePrefs.levelWidth/2-8,gamePrefs.levelHeight/2)
+this.student.body.setSize(14,7).setOffset(9,16)
+
+
+BODY DE LA VERJA
+sprite(152,55 ,'verja')
+this.add.zone(152,35,16,8)
+
+
+POSICION TEXTO
+this.posicionTexto = new Phaser.Math.Vector2(50, 150)
+
+
+FUNCIONES 'INTERESANTES'
+this.add.tween
+this.add.bitmapText
+this.add.container
+array.shift
+sprite.setVisible
+sprite.setFrame
+this.add.zone
+sprite.setBlendMode
+sprite.createBitmapMask
+sprite.body.setEnable
+textObject.setTint
+textObject.setFillStyle
+soundObject.volume
+soundObject.rate
+this.map.setCollisionByExclusion
+this.input.keyboard.createCursorKeys
+this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).on('up',function(){},this)
+sprite.anims.play(key,true).on('animationcomplete',function (){}, this);
+this.cameras.main.fadeOut
+this.cameras.main.once('camerafadeoutcomplete',function (){}, this);
+this.cameras.main.fadeIn
+zone.body.debugBodyColor = 0xffffff;
+map.createLayer
+map.getObjectLayer
+Phaser.Math.Vector2
+this.cameras.main.setBackgroundColor('#181425');

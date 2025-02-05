@@ -1,0 +1,121 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "inicio.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "Todos los archivos (*)",
+    "fileStates": {
+        "dungeon_lv1.json": {
+            "scale": 3.10828125,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 160.0563012114814,
+                "y": 88.15161111948925
+            }
+        },
+        "dungeon_lv1.json#tileset_examen": {
+            "scaleInDock": 1
+        },
+        "dungeon_lv1.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 2.5,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 160,
+                "y": 87.80000000000001
+            }
+        },
+        "dungeon_lv1.tmx#tileset_examen": {
+            "scaleInDock": 2
+        },
+        "examen.tmx": {
+            "scale": 0.6739062499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 639.5548342221192,
+                "y": 400.64920009274294
+            }
+        },
+        "examen.tmx#tileset_enemigos_objetos": {
+            "scaleInDock": 1
+        },
+        "examen.tmx#tileset_moss": {
+            "scaleInDock": 1
+        },
+        "examen.tmx#tileset_walls": {
+            "scaleInDock": 1
+        },
+        "inicio.json": {
+            "scale": 3.3428124999999995,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.8952977470319,
+                "y": 87.94989249322242
+            }
+        },
+        "inicio.json#tileset_examen": {
+            "scaleInDock": 3
+        },
+        "inicio.tmx": {
+            "scale": 2.6956249999999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.51773707396245,
+                "y": 88.29121261303038
+            }
+        },
+        "inicio.tmx#tileset_examen": {
+            "scaleInDock": 1
+        },
+        "level1.tmx": {
+            "scale": 0.23491446345256609,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 366.0906984442238,
+                "y": 402.27408142999025
+            }
+        },
+        "level1.tmx#tileset_enemigos_objetos": {
+            "scaleInDock": 1
+        },
+        "level1.tmx#tileset_moss": {
+            "scaleInDock": 1
+        },
+        "level1.tmx#tileset_walls": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/Richard/Desktop/ex_map_av_2425/assets/maps",
+    "last.imagePath": "C:/Users/Richard/Desktop/ex_map_av_2425/assets/tilesets",
+    "map.height": 11,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.renderOrder": "3",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 20,
+    "openFiles": [
+        "dungeon_lv1.tmx",
+        "inicio.tmx"
+    ],
+    "project": "examen_av_2425.tiled-project",
+    "recentFiles": [
+        "dungeon_lv1.tmx",
+        "inicio.tmx",
+        "inicio.json",
+        "dungeon_lv1.json",
+        "examen.tmx",
+        "level1.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
